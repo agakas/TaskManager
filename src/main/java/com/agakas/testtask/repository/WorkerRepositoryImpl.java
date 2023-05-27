@@ -1,5 +1,6 @@
 package com.agakas.testtask.repository;
 
+import com.agakas.testtask.model.GeneralTask;
 import com.agakas.testtask.model.Task;
 import com.agakas.testtask.model.Worker;
 import com.agakas.testtask.model.WorkerAndShortTaskInfo;
@@ -29,7 +30,7 @@ public class WorkerRepositoryImpl implements WorkerRepository {
 
         WorkerAndShortTaskInfo worker = new WorkerAndShortTaskInfo();
         worker.setWorker(jdbcTemplate.queryForObject(query1, BeanPropertyRowMapper.newInstance(Worker.class), id));
-        worker.setTasks(jdbcTemplate.query(query2, BeanPropertyRowMapper.newInstance(Task.class), id));
+        worker.setTasks(jdbcTemplate.query(query2, BeanPropertyRowMapper.newInstance(GeneralTask.class), id));
 
         return worker;
     }

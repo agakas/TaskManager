@@ -13,12 +13,12 @@ import java.util.Map;
 @Setter
 public class WorkerAndShortTaskInfo {
     private Worker worker;
-    private List<Task> tasks;
+    private List<GeneralTask> tasks;
 
     public WorkerAndShortTaskInfo(){
 
     }
-    public WorkerAndShortTaskInfo(Worker worker, List<Task> tasks){
+    public WorkerAndShortTaskInfo(Worker worker, List<GeneralTask> tasks){
         this.worker = worker;
         this.tasks = tasks;
     }

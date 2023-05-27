@@ -6,16 +6,15 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
-
-//Расширенная модель задачи
+//Модель с краткими данными о задаче
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Task extends GeneralTask{
+public class GeneralTask {
 
-    private String description;
-    private LocalDateTime time;
-    private Long performer;
+    Long id;
+    String title;
+    String status;
 
 }
