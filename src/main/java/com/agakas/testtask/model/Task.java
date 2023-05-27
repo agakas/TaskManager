@@ -18,4 +18,10 @@ public class Task extends GeneralTask{
     private LocalDateTime time;
     private Long performer;
 
+    public Task(String title, String description, LocalDateTime time, String status){
+        this.title = title;
+        this.description = description;
+        this.time = time;
+        this.status = status;
+    }
 }

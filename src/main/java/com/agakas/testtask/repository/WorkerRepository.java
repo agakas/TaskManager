@@ -7,12 +7,10 @@ import java.util.List;
 
 public interface WorkerRepository {
 
-    WorkerAndShortTaskInfo getWorkerAndShortTask(long id);
-    Worker findById(long id);
     int addWorker(Worker worker);
+    WorkerAndShortTaskInfo getWorkerAndShortTask(long id);
     List<Worker> getAllWorkers();
-
+    Worker findById(long id);
     int updateWorker(Worker worker);
-
     int deleteWorkerById(long id);
 }

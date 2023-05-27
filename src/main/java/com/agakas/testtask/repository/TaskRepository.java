@@ -1,18 +1,15 @@
 package com.agakas.testtask.repository;
 
+import com.agakas.testtask.model.GeneralTask;
 import com.agakas.testtask.model.Task;
+import com.agakas.testtask.model.Worker;
 
 import java.util.List;
 
 public interface TaskRepository {
-    void addTask(Task task);
-
-    void updateTask(Long id, Task task);
-
-    void assignTask(Long taskId, Long workerId);
-
-    List<Task> getAllTasks();
-
-    Task getTaskById(Long id);
-
+    List<GeneralTask> getAllShortTask();
+    List<Task> getAllFullTask();
+    Task findById(long id);
+    int updateTask(Task task);
+    int assignTask(Task task);
 }

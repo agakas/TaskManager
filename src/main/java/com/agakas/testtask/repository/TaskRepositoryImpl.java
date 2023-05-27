@@ -1,32 +1,52 @@
 package com.agakas.testtask.repository;
 
+import com.agakas.testtask.model.GeneralTask;
 import com.agakas.testtask.model.Task;
+import com.agakas.testtask.model.Worker;
+import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.IncorrectResultSizeDataAccessException;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@AllArgsConstructor
+@RequiredArgsConstructor
+@Repository
 public class TaskRepositoryImpl implements TaskRepository{
-    @Override
-    public void addTask(Task task) {
 
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
+    @Override
+    public List<GeneralTask> getAllShortTask(){
+        String q = "SELECT id, title, status FROM tasks;";
+        return jdbcTemplate.query(q, BeanPropertyRowMapper.newInstance(GeneralTask.class));
     }
-
     @Override
-    public void updateTask(Long id, Task task) {
-
+    public List<Task> getAllFullTask(){
+        String q = "SELECT * FROM tasks;";
+        return jdbcTemplate.query(q, BeanPropertyRowMapper.newInstance(Task.class));
     }
-
     @Override
-    public void assignTask(Long taskId, Long workerId) {
-
+    public Task findById(long id){
+        try {
+            return jdbcTemplate.queryForObject("SELECT * FROM tasks WHERE id=?",
+                    BeanPropertyRowMapper.newInstance(Task.class), id);
+        } catch (IncorrectResultSizeDataAccessException e) {
+            return null;
+        }
     }
-
     @Override
-    public List<Task> getAllTasks() {
-        return null;
+    public int updateTask(Task task) {
+        return jdbcTemplate.update("UPDATE tasks SET title=?, description=?, time=?, status=? WHERE id=?",
+                task.getTitle(), task.getDescription(), task.getTime(), task.getStatus(),task.getId());
     }
-
     @Override
-    public Task getTaskById(Long id) {
-        return null;
+    public int assignTask(Task task) {
+        return jdbcTemplate.update("UPDATE tasks SET performer=? WHERE id=?",
+                task.getPerformer(),task.getId());
     }
 }
