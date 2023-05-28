@@ -2,7 +2,6 @@ package com.agakas.testtask.repository;
 
 import com.agakas.testtask.model.GeneralTask;
 import com.agakas.testtask.model.Task;
-import com.agakas.testtask.model.Worker;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +19,12 @@ public class TaskRepositoryImpl implements TaskRepository{
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
+
+    @Override
+    public int loadToDB(Task task){
+        return jdbcTemplate.update("INSERT INTO tasks (title, description, time, status) VALUES(?,?,?,?)",
+                task.getTitle(), task.getDescription(), task.getTime(), task.getStatus());
+    }
     @Override
     public List<GeneralTask> getAllShortTask(){
         String q = "SELECT id, title, status FROM tasks;";

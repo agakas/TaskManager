@@ -24,4 +24,16 @@ public class Task extends GeneralTask{
         this.time = time;
         this.status = status;
     }
+
+    @Override
+    public String toString() {
+        return "Task{" +
+                "description='" + description + '\'' +
+                ", time=" + time +
+                ", performer=" + performer +
+                ", id=" + id +
+                ", title='" + title + '\'' +
+                ", status='" + status + '\'' +
+                '}';
+    }
 }

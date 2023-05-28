@@ -8,6 +8,7 @@ import java.util.List;
 
 public interface TaskRepository {
     List<GeneralTask> getAllShortTask();
+    int loadToDB(Task task);
     List<Task> getAllFullTask();
     Task findById(long id);
     int updateTask(Task task);

@@ -3,6 +3,7 @@ package com.agakas.testtask.controller;
 import com.agakas.testtask.model.Worker;
 import com.agakas.testtask.model.WorkerAndShortTaskInfo;
 import com.agakas.testtask.repository.WorkerRepositoryImpl;
+import com.agakas.testtask.service.WorkerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,13 +14,16 @@ import java.util.List;
 @RestController
 @RequestMapping("/worker")
 public class WorkerController {
-    @Autowired
-    WorkerRepositoryImpl workerRepository;
+    private final WorkerService workerService;
 
+    @Autowired
+    public WorkerController(WorkerService workerService){
+        this.workerService = workerService;
+    }
 
     @GetMapping("/{id}")
     public ResponseEntity<WorkerAndShortTaskInfo> getWorkerAndInfoById(@PathVariable long id) {
-        WorkerAndShortTaskInfo worker = workerRepository.getWorkerAndShortTask(id);
+        WorkerAndShortTaskInfo worker = workerService.readInfoWorkerById(id);
 
         if (worker != null) {
             return new ResponseEntity<>(worker, HttpStatus.OK);
@@ -31,7 +35,7 @@ public class WorkerController {
     @PostMapping("")
     public ResponseEntity<String> createWorker(@RequestBody Worker worker) {
         try {
-            workerRepository.addWorker(new Worker(worker.getName(), worker.getPosition(), worker.getAvatar()));
+            workerService.createWorker(new Worker(worker.getName(), worker.getPosition(), worker.getAvatar()));
             return new ResponseEntity<>("Worker was created successfully.", HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -40,12 +44,12 @@ public class WorkerController {
     //Получение списка всех рабочих
     @GetMapping("/allWorkers")
     public ResponseEntity<List<Worker>> getAllWorkers() {
-        List<Worker> workers = workerRepository.getAllWorkers();
+        List<Worker> workers = workerService.readAll();
         return new ResponseEntity<>(workers, HttpStatus.OK);
     }
     @PutMapping("/{id}")
     public ResponseEntity<String> updateTutorial(@PathVariable("id") long id, @RequestBody Worker worker) {
-        Worker _worker = workerRepository.findById(id);
+        Worker _worker = workerService.readOne(id);
 
         if (_worker != null) {
             _worker.setId(id);
@@ -53,7 +57,7 @@ public class WorkerController {
             _worker.setPosition(worker.getPosition());
             _worker.setAvatar(worker.getAvatar());
 
-            workerRepository.updateWorker(_worker);
+            workerService.updateWorker(_worker);
             return new ResponseEntity<>("Worker was updated successfully.", HttpStatus.OK);
         } else {
             return new ResponseEntity<>("Cannot find Worker with id=" + id, HttpStatus.NOT_FOUND);
@@ -63,7 +67,7 @@ public class WorkerController {
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteAllTutorials(@PathVariable("id") long id) {
         try {
-            int result = workerRepository.deleteWorkerById(id);
+            int result = workerService.deleteWorker(id);
             if (result == 0) {
                 return new ResponseEntity<>("Cannot find Worker with id=" + id, HttpStatus.OK);
             }
