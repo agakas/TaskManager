@@ -2,7 +2,6 @@ package com.agakas.testtask.controller;
 
 import com.agakas.testtask.model.Worker;
 import com.agakas.testtask.model.WorkerAndShortTaskInfo;
-import com.agakas.testtask.repository.WorkerRepositoryImpl;
 import com.agakas.testtask.service.WorkerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,6 +20,7 @@ public class WorkerController {
         this.workerService = workerService;
     }
 
+    //Получение одного исполнителя
     @GetMapping("/{id}")
     public ResponseEntity<WorkerAndShortTaskInfo> getWorkerAndInfoById(@PathVariable long id) {
         WorkerAndShortTaskInfo worker = workerService.readInfoWorkerById(id);
@@ -32,10 +32,11 @@ public class WorkerController {
         }
     }
 
+    //Создание исполнителя
     @PostMapping("")
     public ResponseEntity<String> createWorker(@RequestBody Worker worker) {
         try {
-            workerService.createWorker(new Worker(worker.getName(), worker.getPosition(), worker.getAvatar()));
+            workerService.createWorker(new Worker(worker.getName(), worker.getPosition()));
             return new ResponseEntity<>("Worker was created successfully.", HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -47,7 +48,9 @@ public class WorkerController {
         List<Worker> workers = workerService.readAll();
         return new ResponseEntity<>(workers, HttpStatus.OK);
     }
-    @PutMapping("/{id}")
+
+    //Обновление данных рабочего
+    @PatchMapping("/{id}")
     public ResponseEntity<String> updateTutorial(@PathVariable("id") long id, @RequestBody Worker worker) {
         Worker _worker = workerService.readOne(id);
 
@@ -55,7 +58,6 @@ public class WorkerController {
             _worker.setId(id);
             _worker.setName(worker.getName());
             _worker.setPosition(worker.getPosition());
-            _worker.setAvatar(worker.getAvatar());
 
             workerService.updateWorker(_worker);
             return new ResponseEntity<>("Worker was updated successfully.", HttpStatus.OK);
@@ -63,6 +65,7 @@ public class WorkerController {
             return new ResponseEntity<>("Cannot find Worker with id=" + id, HttpStatus.NOT_FOUND);
         }
     }
+
     //Удаление рабочего по id
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteAllTutorials(@PathVariable("id") long id) {

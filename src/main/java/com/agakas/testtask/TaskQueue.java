@@ -15,8 +15,10 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 @AllArgsConstructor
 @Component
 public class TaskQueue {
+    //Класс очереди ориентированный на многопоточность
     ConcurrentLinkedQueue<Task> taskQueue = new ConcurrentLinkedQueue<>();;
 
+    //Метод извлечения и удаления элемента
     public Task pop(){
         Task el = taskQueue.peek();
         taskQueue.poll();

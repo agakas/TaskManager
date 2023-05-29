@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class WorkerService {
@@ -14,6 +15,9 @@ public class WorkerService {
     @Autowired
     WorkerRepository workerRepository;
     public void createWorker(Worker worker){
+        //Генерирование ссылки на аватарку
+        String pathToAvatar = "https://example.com/"+ UUID.randomUUID().toString() + ".png";
+        worker.setAvatar(pathToAvatar);
         workerRepository.addWorker(worker);
     }
     public Worker readOne(long id){
@@ -26,6 +30,9 @@ public class WorkerService {
         return workerRepository.getWorkerAndShortTask(id);
     }
     public void updateWorker(Worker worker){
+        //Генерирование ссылки на аватарку
+        String pathToAvatar = "https://example.com/"+ UUID.randomUUID().toString() + ".png";
+        worker.setAvatar(pathToAvatar);
         workerRepository.updateWorker(worker);
     }
     public int deleteWorker(long id){

@@ -31,11 +31,6 @@ public class TaskRepositoryImpl implements TaskRepository{
         return jdbcTemplate.query(q, BeanPropertyRowMapper.newInstance(GeneralTask.class));
     }
     @Override
-    public List<Task> getAllFullTask(){
-        String q = "SELECT * FROM tasks;";
-        return jdbcTemplate.query(q, BeanPropertyRowMapper.newInstance(Task.class));
-    }
-    @Override
     public Task findById(long id){
         try {
             return jdbcTemplate.queryForObject("SELECT * FROM tasks WHERE id=?",

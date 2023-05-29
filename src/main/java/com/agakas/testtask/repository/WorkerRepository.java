@@ -1,6 +1,5 @@
 package com.agakas.testtask.repository;
 
-import com.agakas.testtask.model.Task;
 import com.agakas.testtask.model.Worker;
 import com.agakas.testtask.model.WorkerAndShortTaskInfo;
 

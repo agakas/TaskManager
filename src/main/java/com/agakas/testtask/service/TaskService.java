@@ -15,6 +15,7 @@ import java.util.List;
 @Service
 public class TaskService {
 
+    //Экземпляр очереди
     @Autowired
     final private TaskQueue myQueue = new TaskQueue();
 
@@ -26,9 +27,11 @@ public class TaskService {
         myQueue.add(task);
     }
     public ResponseEntity<String>loadTasks(){
+        //Если меньше 3 элементов в очереди, то посылки не будет
         if (myQueue.size()<3){
             return new ResponseEntity<>("Not enough items in the queue", HttpStatus.FORBIDDEN);
         }
+        //инициализирую 3 потомка с 3 разными элементами очереди и запускаю их (в методе star происходит отсылка)
         TaskLoader thread1 = new TaskLoader(myQueue.pop());
         TaskLoader thread2 = new TaskLoader(myQueue.pop());
         TaskLoader thread3 = new TaskLoader(myQueue.pop());
@@ -40,8 +43,8 @@ public class TaskService {
     public List<GeneralTask> shortInfoAboutAll(){
         return taskRepository.getAllShortTask();
     }
-    public List<Task> fullInfoAboutAll(){
-        return taskRepository.getAllFullTask();
+    public Task fullInfoTask(long id){
+        return taskRepository.findById(id);
     }
     public Task readOne(long id){
         return taskRepository.findById(id);

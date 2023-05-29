@@ -21,7 +21,7 @@ public class TaskController {
         this.taskService = taskService;
     }
 
-
+    //Эндпоинт создания задачи
     @PostMapping("/addTask")
     public ResponseEntity<String> createTask(@RequestBody Task task) {
         try {
@@ -31,24 +31,26 @@ public class TaskController {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    @GetMapping("/loadTasks")
+
+    //Эндпоинт для загрузки задач из очереди в бд
+    @PostMapping("/loadTasks")
     public ResponseEntity<String> loadTasks() {
         return taskService.loadTasks();
     }
     //Эндпоинт для краткой информации по всем задачам
-    @GetMapping("/allTaskShort")
+    @GetMapping("/allTasks")
     public ResponseEntity<List<GeneralTask>> getAllTaskShort() {
         List<GeneralTask> tasks = taskService.shortInfoAboutAll();
         return new ResponseEntity<>(tasks, HttpStatus.OK);
     }
-    //Эндпоинт для полной информации по всем задачам
-    @GetMapping("/allTaskFull")
-    public ResponseEntity<List<Task>> getAllTaskFull() {
-        List<Task> tasks = taskService.fullInfoAboutAll();
-        return new ResponseEntity<>(tasks, HttpStatus.OK);
+    //Эндпоинт для информации о задаче
+    @GetMapping("/{id}")
+    public ResponseEntity<Task> getTaskFull(@PathVariable("id") long id) {
+        Task task = taskService.fullInfoTask(id);
+        return new ResponseEntity<>(task, HttpStatus.OK);
     }
     //Эндпойнт для обновления задачи (кроме id и performer)
-    @PatchMapping("/update/{id}")
+    @PatchMapping("/{id}")
     public ResponseEntity<String> updateTask(@PathVariable("id") long id, @RequestBody Task task) {
         Task _task = taskService.readOne(id);
 

@@ -1,7 +1,6 @@
 package com.agakas.testtask.model;
 
 import lombok.*;
-import org.springframework.data.relational.core.mapping.Table;
 
 @Getter
 @Setter
@@ -18,5 +17,9 @@ public class Worker {
         this.name = name;
         this.position = position;
         this.avatar = avatar;
+    }
+    public Worker(String name, String position) {
+        this.name = name;
+        this.position = position;
     }
 }
